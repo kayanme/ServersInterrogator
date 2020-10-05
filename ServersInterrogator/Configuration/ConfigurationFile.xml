@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns="urn:config-schema">
+  <Setting Url="https://www.google.com/" Threads="1" Interval="3"/>
+  <Setting Url="https://httpstat.us/100" Threads="1" Interval="3"/>
+</Settings>
