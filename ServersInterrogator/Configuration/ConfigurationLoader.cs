@@ -35,14 +35,14 @@ namespace ServersInterrogator.Configuration
 
             using (var reader = new StreamReader(File.OpenRead(path)))
             {
-                config = serializer.Deserialize(reader) as Config;
+                config = serializer.Deserialize(reader) as Config;//вообще здесь-то всё и провалидируется, причём по схеме из класса.
             }
-            return config;
+            return config;//сразу return можно
         }
 
         private bool IsConfigValid()
         {
-            var settings = GetXmlReaderSettings();
+            var settings = GetXmlReaderSettings();//https://docs.microsoft.com/ru-ru/dotnet/api/system.xml.xmldocument.validate?view=netcore-3.1
             var xmlReader = XmlReader.Create(_configFileName, settings);
             using(xmlReader)
             while (xmlReader.Read()) { }
