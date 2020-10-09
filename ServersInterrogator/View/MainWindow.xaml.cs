@@ -35,10 +35,11 @@ namespace ServersInterrogator
 
         private void acceptButton_Click(object sender, RoutedEventArgs e)
         {
+        //это всё во вьюмодели делается. Она же есть у тебя.
             Logger.Logger.Log.Debug(MethodBase.GetCurrentMethod().Name);
 
             var viewModel = DataContext as ServerInfoViewModel;
-            viewModel.ServerInfos.Clear();
+            viewModel.ServerInfos.Clear();//на такие операции ObservableCollection небезопасна, насколько я помню.
 
             var loader = new ConfigurationLoader();
             var config = loader.LoadConfig();
@@ -49,15 +50,15 @@ namespace ServersInterrogator
             {
                 while (!token.IsCancellationRequested)
                 {
-                    var items = config.Settings.SelectMany(set => GetRows(set.Url, set.Interval, set.Threads)).ToList();
+                    var items = config.Settings.SelectMany(set => GetRows(set.Url, set.Interval, set.Threads)).ToList();//они всё время создаются?
                    
                     App.Current.Dispatcher.Invoke((Action)delegate 
                     {
                         items.ForEach(item => viewModel.ServerInfos.Add(item));
-                    });
+                    });//в ряде случаев (здесь всё равно) лучше инвок делать максимально ближе к критичному методу, чтобы интерфейс меньше подвисал.
 
                     foreach (var item in items)
-                        await item.RequestAsync();
+                        await item.RequestAsync();//await Task.WhenAll(items.Select(item=>item.RequestAsync())); Сюда бы твой токен тоже неплохо было бы передать, чтобы и вызовы можно было отменять.
                 }
                 Logger.Logger.Log.Debug("Операция прервана");
             });
