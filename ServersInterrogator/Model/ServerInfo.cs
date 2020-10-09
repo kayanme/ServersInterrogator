@@ -88,7 +88,7 @@ namespace ServersInterrogator.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
-        public async Task RequestAsync()
+        public async Task RequestAsync()//я бы выделил этот метод в отдельный сервис. Это у тебя не модель, это часть вьюмодели, по сути. Пусть она заполняется отдельно.
         {
             var request = (HttpWebRequest)WebRequest.Create(Url);
             request.Timeout = _interval;
