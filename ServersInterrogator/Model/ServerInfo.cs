@@ -46,7 +46,7 @@ namespace ServersInterrogator.Model
             }
             set
             {
-                _code = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), value);
+                _code = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), value);//такие-то вещи всё-таки конверторами обычно делаются в wpf. А зачем здесь кстати set?
                 OnPropertyChanged(nameof(StatusCode));
             }
         }
@@ -99,7 +99,7 @@ namespace ServersInterrogator.Model
             {
                 response = (HttpWebResponse)await request.GetResponseAsync();
             }
-            catch { }
+            catch { }//сие всегда плохо. Хоть в лог что ли напиши.
             finally
             {
                 if (response != null)
